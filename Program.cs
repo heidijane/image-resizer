@@ -22,6 +22,7 @@ You should use this nuget package: https://www.nuget.org/packages/SixLabors.Imag
 */
 
 using System;
+using System.IO;
 
 namespace image_resizer
 {
@@ -60,8 +61,35 @@ namespace image_resizer
             string image = arguments[1];
             string width = arguments[2];
 
-            Console.WriteLine(image);
-            Console.WriteLine(width);
+            //see if image exists
+            if (!File.Exists(image))
+            {
+                Console.WriteLine("The file you provided does not exist!");
+                Console.WriteLine("Please provide your request in the format: dotnet run imagePath  desiredImageWidth");
+                Console.WriteLine("Example: dotnet run myImage.jpg 50");
+                return;
+            }
+            else
+            {
+                //file exists, now check to see if it is an image
+                //there are "better" ways of doing this but since this is a simple application 
+                //and the image ins't being uploaded somewhere that it could break something, this should work fine.
+
+                string extension = Path.GetExtension(image);
+                extension.ToLower();
+
+                string[] supportedFormats = { ".bmp", ".gif", ".jpg", ".jpeg", ".png" };
+
+                if (!Array.Exists(supportedFormats, format => format == extension))
+                {
+                    Console.WriteLine("Image format is invalid. Image must be a .bmp, .gif, .jpg, or .png");
+                    return;
+                }
+                else
+                {
+                    Console.WriteLine("Image is good!");
+                }
+            }
         }
     }
 }
