@@ -29,20 +29,39 @@ namespace image_resizer
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            /*******
+            STEPS!
 
-            //install the ImageSharp nuget package
+            - install the ImageSharp nuget package
 
-            //get the two command line arguments
+            - get the two command line arguments
 
-            //determine what the image proportional height should be based upon the user supplied width
+            - check to make sure that user has two command line arguments
 
-            //make a copy of the image that has a file name with the new width and height (example: myimage_50x25.jpg)
-            //new file should be in the same directory as the original
+            - check to make sure that the first argument is a valid image file
 
-            //actually resize the image
+            - check to make sure that the second argument is a valid integer width
 
-            //save the image
+            - determine what the image proportional height should be based upon the user supplied width
+
+            - make a copy of the image that has a file name with the new width and height (example: myimage_50x25.jpg)
+            new file should be in the same directory as the original
+
+            - actually resize the image
+
+            - save the image
+            
+            Let's have some fun! :D
+            ******/
+
+            //get the command line arguments
+            string[] arguments = Environment.GetCommandLineArgs();
+
+            string image = arguments[1];
+            string width = arguments[2];
+
+            Console.WriteLine(image);
+            Console.WriteLine(width);
         }
     }
 }
