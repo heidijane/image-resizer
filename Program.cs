@@ -82,7 +82,7 @@ namespace image_resizer
 
                 if (!Array.Exists(supportedFormats, format => format == extension))
                 {
-                    Console.WriteLine("Image format is invalid. Image must be a .bmp, .gif, .jpg, or .png");
+                    Console.WriteLine("File format is invalid. Image must be a .bmp, .gif, .jpg, or .png");
                     return;
                 }
                 else
