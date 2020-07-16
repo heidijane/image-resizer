@@ -23,6 +23,9 @@ You should use this nuget package: https://www.nuget.org/packages/SixLabors.Imag
 
 using System;
 using System.IO;
+using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp.Processing;
 
 namespace image_resizer
 {
@@ -33,15 +36,15 @@ namespace image_resizer
             /*******
             STEPS!
 
-            - install the ImageSharp nuget package
+            [x] install the ImageSharp nuget package
 
-            - get the two command line arguments
+            [x] get the two command line arguments
 
-            - check to make sure that user has two command line arguments
+            [x] check to make sure that user has two command line arguments
 
-            - check to make sure that the first argument is a valid image file
+            [x] check to make sure that the first argument is a valid image file
 
-            - check to make sure that the second argument is a valid integer width
+            [x] check to make sure that the second argument is a valid integer width
 
             - determine what the image proportional height should be based upon the user supplied width
 
@@ -74,6 +77,10 @@ namespace image_resizer
             //there are "better" ways of doing this but since this is a simple application 
             //and the image ins't being uploaded somewhere that it could break something, this should work fine.
 
+            //get filename without extension
+            string fileName = Path.GetFileNameWithoutExtension(image);
+
+            //get file extension
             string extension = Path.GetExtension(image);
             extension.ToLower();
 
@@ -85,15 +92,42 @@ namespace image_resizer
                 return;
             }
 
+            int imageWidth = 0;
             //make sure that the image width is an integer
             try
             {
-                int imageWidth = Int32.Parse(widthString);
+                imageWidth = Int32.Parse(widthString);
             }
             catch
             {
                 Console.WriteLine("Second argument must be an integer representing the desired image width");
+                return;
             }
+
+            if (imageWidth == 0 || imageWidth > 5000)
+            {
+                Console.WriteLine("Image width must be greater than 0 and less than 5000.");
+                return;
+            }
+
+            //load the current image so that we can get its size in pixels
+            Image resizedImage = Image.Load(image);
+
+            int originalImageWidth = resizedImage.Width;
+            int originalImageHeight = resizedImage.Height;
+
+            //determine the proportional height of the resized image
+            int newHeight = imageWidth * originalImageHeight;
+            newHeight = newHeight / originalImageWidth;
+
+            resizedImage.Mutate(x => x.Resize(imageWidth, newHeight));
+            resizedImage.Save($"{fileName}_{imageWidth}x{newHeight}{extension}");
+
+            Console.WriteLine();
+            Console.WriteLine("~* Image Resizer *~");
+            Console.WriteLine("--------------------");
+            Console.WriteLine($"Resized from {originalImageWidth}x{originalImageHeight} px to {imageWidth}x{newHeight} px");
+            Console.WriteLine($"Saved as {fileName}_{imageWidth}x{newHeight}{extension}!");
 
         }
     }
