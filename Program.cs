@@ -61,6 +61,12 @@ namespace image_resizer
             //get the command line arguments
             string[] arguments = Environment.GetCommandLineArgs();
 
+            if (arguments.Length != 3)
+            {
+                Console.WriteLine("Exactly 2 arguments must be provided.");
+                return;
+            }
+
             string image = arguments[1];
             string widthString = arguments[2];
 
@@ -121,13 +127,29 @@ namespace image_resizer
             newHeight = newHeight / originalImageWidth;
 
             resizedImage.Mutate(x => x.Resize(imageWidth, newHeight));
-            resizedImage.Save($"{fileName}_{imageWidth}x{newHeight}{extension}");
+            string directoryName = Path.GetDirectoryName(image);
+            if (directoryName != "")
+            {
+                resizedImage.Save($"{directoryName}\\{fileName}_{imageWidth}x{newHeight}{extension}");
+            }
+            else
+            {
+                resizedImage.Save($"{fileName}_{imageWidth}x{newHeight}{extension}");
+            }
 
             Console.WriteLine();
             Console.WriteLine("~* Image Resizer *~");
             Console.WriteLine("--------------------");
             Console.WriteLine($"Resized from {originalImageWidth}x{originalImageHeight} px to {imageWidth}x{newHeight} px");
-            Console.WriteLine($"Saved as {fileName}_{imageWidth}x{newHeight}{extension}!");
+
+            if (directoryName != "")
+            {
+                Console.WriteLine($"Saved as {directoryName}\\{fileName}_{imageWidth}x{newHeight}{extension}!");
+            }
+            else
+            {
+                Console.WriteLine($"Saved as {fileName}_{imageWidth}x{newHeight}{extension}!");
+            }
 
         }
     }
