@@ -59,7 +59,7 @@ namespace image_resizer
             string[] arguments = Environment.GetCommandLineArgs();
 
             string image = arguments[1];
-            string width = arguments[2];
+            string widthString = arguments[2];
 
             //see if image exists
             if (!File.Exists(image))
@@ -69,27 +69,32 @@ namespace image_resizer
                 Console.WriteLine("Example: dotnet run myImage.jpg 50");
                 return;
             }
-            else
+
+            //file exists, now check to see if it is an image
+            //there are "better" ways of doing this but since this is a simple application 
+            //and the image ins't being uploaded somewhere that it could break something, this should work fine.
+
+            string extension = Path.GetExtension(image);
+            extension.ToLower();
+
+            string[] supportedFormats = { ".bmp", ".gif", ".jpg", ".jpeg", ".png" };
+
+            if (!Array.Exists(supportedFormats, format => format == extension))
             {
-                //file exists, now check to see if it is an image
-                //there are "better" ways of doing this but since this is a simple application 
-                //and the image ins't being uploaded somewhere that it could break something, this should work fine.
-
-                string extension = Path.GetExtension(image);
-                extension.ToLower();
-
-                string[] supportedFormats = { ".bmp", ".gif", ".jpg", ".jpeg", ".png" };
-
-                if (!Array.Exists(supportedFormats, format => format == extension))
-                {
-                    Console.WriteLine("File format is invalid. Image must be a .bmp, .gif, .jpg, or .png");
-                    return;
-                }
-                else
-                {
-                    Console.WriteLine("Image is good!");
-                }
+                Console.WriteLine("File format is invalid. Image must be a .bmp, .gif, .jpg, or .png");
+                return;
             }
+
+            //make sure that the image width is an integer
+            try
+            {
+                int imageWidth = Int32.Parse(widthString);
+            }
+            catch
+            {
+                Console.WriteLine("Second argument must be an integer representing the desired image width");
+            }
+
         }
     }
 }
