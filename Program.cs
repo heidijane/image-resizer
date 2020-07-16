@@ -24,7 +24,6 @@ You should use this nuget package: https://www.nuget.org/packages/SixLabors.Imag
 using System;
 using System.IO;
 using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using SixLabors.ImageSharp.Processing;
 
 namespace image_resizer
