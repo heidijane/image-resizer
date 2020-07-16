@@ -45,14 +45,14 @@ namespace image_resizer
 
             [x] check to make sure that the second argument is a valid integer width
 
-            - determine what the image proportional height should be based upon the user supplied width
+            [x] determine what the image proportional height should be based upon the user supplied width
 
-            - make a copy of the image that has a file name with the new width and height (example: myimage_50x25.jpg)
+            [x] make a copy of the image that has a file name with the new width and height (example: myimage_50x25.jpg)
             new file should be in the same directory as the original
 
-            - actually resize the image
+            [x] actually resize the image
 
-            - save the image
+            [x] save the image
             
             Let's have some fun! :D
             ******/
